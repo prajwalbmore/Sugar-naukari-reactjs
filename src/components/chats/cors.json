@@ -1,0 +1,8 @@
+[
+  {
+    "origin": ["http://localhost:5173", "https://fastaff.demohub.tech","https://fastaff.ch/","https://www.fastaff.ch/"],
+    "method": ["GET", "POST", "PUT", "HEAD", "DELETE"],
+    "responseHeader": ["Content-Type", "x-goog-meta-foo", "Authorization"],
+    "maxAgeSeconds": 3600
+  }
+]

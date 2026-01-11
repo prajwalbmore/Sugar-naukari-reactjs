@@ -1,0 +1,62 @@
+// Import Dependencies
+import PropTypes from "prop-types";
+
+// Local Imports
+import { useDisclosure, useDidUpdate, useIsomorphicEffect } from "hooks";
+import { useBreakpointsContext } from "../breakpoint/context";
+import { SidebarContext } from "./context";
+import { useState } from "react";
+
+const initialState = {
+  isExpanded: true,
+  setIsExpanded: () => {},
+  hasMultipleChildren: true,
+  setHasMultipleChildren: () => {},
+};
+
+export function SidebarProvider({ children }) {
+  const { xlAndUp, lgAndDown, name } = useBreakpointsContext();
+
+  const [isExpanded, { open, close, toggle }] = useDisclosure(
+    initialState.isExpanded && xlAndUp,
+  );
+
+  const [hasMultipleChildren, setHasMultipleChildren] = useState(true);
+
+  // Close Sidebar when Breakpoint changed
+  useDidUpdate(() => {
+    lgAndDown && close();
+  }, [name]);
+
+  useIsomorphicEffect(() => {
+    const documentBody = document?.body;
+    if (documentBody) {
+      isExpanded
+        ? documentBody.classList.add("is-sidebar-open")
+        : documentBody.classList.remove("is-sidebar-open");
+    }
+  }, [isExpanded]);
+
+  if (!children) {
+    return;
+  }
+
+  return (
+    <SidebarContext
+      value={{
+        isExpanded,
+        toggle,
+        open,
+        close,
+        hasMultipleChildren,
+        setHasMultipleChildren,
+      }}
+    >
+      {children}
+    </SidebarContext>
+  );
+}
+
+SidebarProvider.propTypes = {
+  children: PropTypes.node,
+};
