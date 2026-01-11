@@ -50,117 +50,161 @@ const EmployerDashboardIndex = ({ data }) => {
   };
 
   return (
-    <section className="w-full p-2 sm:p-4">
-      {/* Top Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-5">
-        {/* Left Section */}
-        <div className="lg:col-span-3 space-y-4 sm:space-y-5">
-          {/* Jobs Open Card */}
-          <div className={cardClasses}>
-            <h3 className="text-md sm:text-lg font-medium text-gray-600">
-              {t("Ongoing Jobs")}
-            </h3>
-            <div className="flex flex-col sm:flex-row items-start sm:items-baseline gap-1 sm:gap-2 mt-2">
-              <span className="text-3xl sm:text-5xl font-bold text-gray-800">
-                {data?.ongoingcount}
-              </span>
-              <span className="text-sm sm:text-lg text-gray-500">
-                {t("Jobs Ongoing")}
-              </span>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+      {/* Header Section */}
+      <div className="bg-white shadow-sm border-b">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900">Employer Dashboard</h1>
+              <p className="mt-1 text-gray-600">Manage your jobs and track applications.</p>
+            </div>
+            <div className="flex items-center space-x-4">
+              <Link
+                to="/dashboard/post-job"
+                className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
+              >
+                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                </svg>
+                Post New Job
+              </Link>
             </div>
           </div>
-          <DashboardAvtiveSubscription />
-          {/* Applicants Summary */}
-          {/* <ApplicantsSummary data={data} /> */}
+        </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Statistics Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-600">Total Jobs Posted</p>
+                <p className="text-2xl font-bold text-gray-900">{data?.stats?.total_jobs_posted || 0}</p>
+              </div>
+              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-600">Active Jobs</p>
+                <p className="text-2xl font-bold text-gray-900">{data?.stats?.active_jobs || 0}</p>
+              </div>
+              <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-600">Today's Applications</p>
+                <p className="text-2xl font-bold text-gray-900">{data?.applicants_today?.applicants_applied || 0}</p>
+              </div>
+              <div className="w-12 h-12 bg-emerald-100 rounded-lg flex items-center justify-center">
+                <svg className="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-shadow">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-600">Approved Applications</p>
+                <p className="text-2xl font-bold text-gray-900">{data?.stats?.approved_applications || 0}</p>
+              </div>
+              <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                <svg className="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+            </div>
+          </div>
         </div>
 
-        {/* Middle Section - Job Statistics */}
-        <div className="lg:col-span-6 mt-4 lg:mt-0">
+        {/* Job Statistics Chart */}
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 mb-8">
+          <h2 className="text-xl font-semibold text-gray-900 mb-6">Job Performance Analytics</h2>
           <JobStatistics data={data} />
         </div>
 
-        {/* Right Section */}
-        <div className="lg:col-span-3 space-y-4 sm:space-y-5 mt-4 lg:mt-0">
-          {/* Applicants Today Card */}
-          <div className={cardClasses}>
-            <h3 className="text-sm sm:text-md font-medium text-gray-600">
-              {t("Applicants Today")}
-            </h3>
-            <div className="flex flex-col sm:flex-row items-start sm:items-baseline gap-1 sm:gap-2 mt-2">
-              <span className="text-3xl sm:text-5xl font-bold text-gray-800">
-                {data?.applicants_today?.applicants_applied}
-              </span>
-              <span className="text-sm sm:text-lg text-gray-500">
-                {t("Applications applied")}
-              </span>
-            </div>
+        {/* Analytics Tables */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">Top Performing Employees</h3>
+            <ReusableTable
+              title=""
+              isDateFilter={false}
+              columns={[
+                { key: "srNo", label: "Sr No" },
+                { key: "employee_name", label: "Employee Name" },
+                { key: "jobs_completed", label: "Completed Jobs" },
+                { key: "rating", label: "Rating" },
+              ]}
+              data={data?.topEmployees?.map((emp, index) => ({
+                srNo: index + 1,
+                ...emp,
+              }))}
+            />
           </div>
 
-          {/* Expenses Chart */}
-          {/* <ExpensesChart data={data} /> */}
-          <ApplicantsSummary data={data} />
-        </div>
-      </div>
-
-      {/* Charts Section */}
-      {/* <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-5 mt-4 sm:mt-5"> */}
-      <div className="space-y-5 mt-4 sm:mt-5">
-        {/* <SkillDemandSupplyChart data={data} t={t} /> */}
-        {/* <TopRolesTable data={data} t={t} /> */}
-        <ReusableTable
-          title="Top Employees"
-          isDateFilter={false}
-          columns={[
-            { key: "srNo", label: "Sr No" },
-            { key: "employee_name", label: "Employee Name" },
-            { key: "jobs_completed", label: "Completed Jobs" },
-            { key: "rating", label: "Rating" },
-          ]}
-          data={data?.topEmployees?.map((emp, index) => ({
-            srNo: index + 1,
-            ...emp,
-          }))}
-        />
-        <ReusableTable
-          title="Top Roles"
-          isDateFilter={false}
-          columns={[
-            { key: "srNo", label: "Sr No" },
-            { key: "job_title", label: "Job Title" },
-            { key: "jobs", label: "Total Applictions" },
-            { key: "hires", label: "Hires" },
-          ]}
-          data={data?.top_roles?.map((emp, index) => ({
-            srNo: index + 1,
-            ...emp,
-          }))}
-        />
-      </div>
-
-      {/* Job Updates */}
-      <div className="space-y-4 mt-4 sm:mt-5">
-        {/* Header */}
-        <div className="flex flex-col sm:flex-row justify-between sm:items-center border-b-2 gap-2 pb-2">
-          <h1 className="text-md sm:text-lg font-semibold text-gray-800">
-            {t("Job Updates")}
-          </h1>
-          <Link
-            className="flex gap-1 text-blue-600 hover:underline text-sm sm:text-base"
-            to={"/dashboard/jobs-listing"}
-          >
-            {t("View All")}
-            <span className="font-bold text-base sm:text-xl">{"->"}</span>
-          </Link>
+          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">Popular Job Roles</h3>
+            <ReusableTable
+              title=""
+              isDateFilter={false}
+              columns={[
+                { key: "srNo", label: "Sr No" },
+                { key: "job_title", label: "Job Title" },
+                { key: "jobs", label: "Total Applications" },
+                { key: "hires", label: "Hires" },
+              ]}
+              data={data?.top_roles?.map((emp, index) => ({
+                srNo: index + 1,
+                ...emp,
+              }))}
+            />
+          </div>
         </div>
 
-        {/* Job Cards */}
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-5">
-          {job_updates.map((job) => (
-            <DashboardJobCard key={job.id || job.title} job={job} t={t} />
-          ))}
+        {/* Recent Job Updates */}
+        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+          <div className="flex flex-col sm:flex-row justify-between sm:items-center mb-6">
+            <h2 className="text-xl font-semibold text-gray-900">Recent Job Updates</h2>
+            <Link
+              className="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors"
+              to={"/dashboard/jobs-listing"}
+            >
+              View All Jobs
+              <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {job_updates.map((job) => (
+              <DashboardJobCard key={job.id || job.title} job={job} t={t} />
+            ))}
+          </div>
         </div>
+
+        {/* Subscription Status */}
+        
       </div>
-    </section>
+    </div>
   );
 };
 

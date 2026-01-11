@@ -163,7 +163,7 @@ const Sidebar = ({ active, setActive }) => {
       {/* Logout Button */}
       <div className="absolute bottom-4 w-[calc(100%-2rem)]">
         <button
-          className="flex items-center p-2 rounded-lg hover:bg-green-500 w-full"
+          className="flex items-center p-2 rounded-lg hover:bg-emerald-500 w-full"
           onClick={logout}
         >
           <ArrowLeftOnRectangleIcon className="h-6 w-6" strokeWidth={2} />

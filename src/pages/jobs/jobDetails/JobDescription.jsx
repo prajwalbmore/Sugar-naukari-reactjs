@@ -61,8 +61,12 @@ const JobDescription = ({ isCompanyDetail = false, jobData }) => {
     start_date,
     salary,
     exp_level,
+    skills,
     jObSkills,
   } = jobData || {};
+
+  // Handle skills - can come as skills array or jObSkills array
+  const skillsData = jObSkills || (skills ? skills.map(skill => ({ name: skill })) : []);
   const { t } = useTranslation();
   return (
     <div className="p-6 bg-white">
@@ -75,17 +79,26 @@ const JobDescription = ({ isCompanyDetail = false, jobData }) => {
 
           <h3 className="mt-8 text-xl font-bold">{t("Job Role")}</h3>
           <ul className="mt-4 space-y-3">
-            {job_role
-              ?.split(".")
-              .filter((t) => t.trim() !== "")
-              .map((t, i) => (
-                <li key={i} className="flex items-start gap-2 text-gray-700">
-                  <span className="mt-1  h-4 w-4 rounded-full border border-emerald-400 text-emerald-500 leading-3 text-[10px] flex items-center justify-center">
-                    ✓
-                  </span>
-                  <span>{t}</span>
-                </li>
-              ))}
+            {job_role ? (
+              job_role
+                .split(".")
+                .filter((t) => t.trim() !== "")
+                .map((t, i) => (
+                  <li key={i} className="flex items-start gap-2 text-gray-700">
+                    <span className="mt-1 h-4 w-4 rounded-full border border-emerald-400 text-emerald-500 leading-3 text-[10px] flex items-center justify-center">
+                      ✓
+                    </span>
+                    <span>{t.trim()}</span>
+                  </li>
+                ))
+            ) : (
+              <li className="flex items-start gap-2 text-gray-500">
+                <span className="mt-1 h-4 w-4 rounded-full border border-gray-400 text-gray-400 leading-3 text-[10px] flex items-center justify-center">
+                  ✓
+                </span>
+                <span>{t("Job role information not available")}</span>
+              </li>
+            )}
           </ul>
         </div>
 
@@ -109,9 +122,13 @@ const JobDescription = ({ isCompanyDetail = false, jobData }) => {
 
           <h4 className="mt-8 text-2xl font-bold">{t("Required Skills")}</h4>
           <div className="mt-3 flex flex-wrap gap-2 font-semibold">
-            {jObSkills.map((skill, index) => (
-              <Chip key={index}>{skill?.name}</Chip>
-            ))}
+            {skillsData && skillsData.length > 0 ? (
+              skillsData.map((skill, index) => (
+                <Chip key={index}>{skill?.name || skill}</Chip>
+              ))
+            ) : (
+              <span className="text-gray-500 text-sm">{t("No skills specified")}</span>
+            )}
           </div>
         </aside>
       </div>

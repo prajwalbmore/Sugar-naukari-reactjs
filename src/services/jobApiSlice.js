@@ -240,15 +240,15 @@ export const jobApi = baseQueryApi.injectEndpoints({
         method: "GET",
       }),
     }),
-    getJobListingApplicants: builder.query({
+    getEmployerJobData: builder.query({
       query: ({ job_id, tab_name }) => ({
-        url: `/get-employer-job-data-web?job_id=${job_id}&tab_name=${tab_name}`,
+        url: `/api/v1/jobs/get-employer-job-data-web?job_id=${job_id}&tab_name=${tab_name}`,
         method: "GET",
       }),
     }),
     getJobByID: builder.query({
       query: (job_id) => ({
-        url: `/get-job-by-id?job_id=${job_id}`, // ✅ fixed `?` instead of `/`
+        url: `/api/v1/jobs/${job_id}`,
         method: "GET",
       }),
     }),
@@ -272,13 +272,13 @@ export const jobApi = baseQueryApi.injectEndpoints({
     }),
     getDashboardForEmployer: builder.query({
       query: ({ allFlag }) => ({
-        url: `/employer/dashboard-overview?allFlag=${allFlag}`, // ✅ fixed `?` instead of `/`
+        url: `/api/v1/employer/dashboard-overview?allFlag=${allFlag}`,
         method: "GET",
       }),
     }),
     getDashboardForEmployeee: builder.query({
       query: ({ latitude = "", longitude = "" }) => ({
-        url: `/employee/dashboard-overview?latitude=${latitude}&longitude=${longitude}`, // ✅ fixed `?` instead of `/`
+        url: `/api/v1/employee/dashboard-overview?latitude=${latitude}&longitude=${longitude}`,
         method: "GET",
       }),
     }),
@@ -319,7 +319,7 @@ export const {
   useReviewEmployerJobMutation,
   useGetOngoingforEmployerJobsQuery,
   useGetEmployerJobListingQuery,
-  useGetJobListingApplicantsQuery,
+  useGetEmployerJobDataQuery,
   useHireAndRejectApplicationMutation,
   useEditJobMutation,
   useGetJobByIDQuery,

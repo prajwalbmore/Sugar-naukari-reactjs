@@ -1,171 +1,157 @@
-import React from 'react'
+import React from "react";
+import {
+  useGetDashboardForEmployeeeQuery,
+  useGetDashboardForEmployerQuery,
+} from "../../services/jobApiSlice";
+import Spinner from "../../components/ui/Spinner";
+import EmployeeDashboardIndex from "./EmployeeDashboardIndex";
+import EmpyoyerDashboardIndex from "./EmpyoyerDashboardIndex";
+import { useAuthContext } from "../../contexts/auth/context";
 
 const Dashboard = () => {
+  const { userType } = useAuthContext();
+
+  // Employer dashboard query
+  const {
+    data: employerData,
+    isLoading: employerLoading,
+    refetch: employerRefetch,
+    error: employerError
+  } = useGetDashboardForEmployerQuery(
+    { allFlag: true },
+    {
+      pollingInterval: 30000, // Poll every 30 seconds
+      skip: userType !== "employer"
+    }
+  );
+
+  // Employee dashboard query
+  const {
+    data: employeeData,
+    isLoading: employeeLoading,
+    refetch: employeeRefetch,
+    error: employeeError
+  } = useGetDashboardForEmployeeeQuery(
+    {}, // Add location params if needed
+    {
+      pollingInterval: 30000,
+      skip: userType !== "employee"
+    }
+  );
+
+  // Loading state
+  if ((userType === "employer" && employerLoading) ||
+      (userType === "employee" && employeeLoading)) {
+    return (
+      <div className="flex items-center justify-center min-h-[60vh]">
+        <Spinner />
+      </div>
+    );
+  }
+
+  // Error states
+  if ((userType === "employer" && employerError) ||
+      (userType === "employee" && employeeError)) {
+    const error = userType === "employer" ? employerError : employeeError;
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[60vh] p-8">
+        <div className="text-center">
+          <h2 className="text-2xl font-semibold text-gray-900 mb-2">
+            Something went wrong
+          </h2>
+          <p className="text-gray-600 mb-4">
+            {error?.data?.message || "Failed to load dashboard data"}
+          </p>
+          <button
+            onClick={() => {
+              if (userType === "employer") employerRefetch();
+              else employeeRefetch();
+            }}
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+          >
+            Try Again
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // Empty state for employer with no jobs
+  if (userType === "employer" && !employerData?.data?.data_available) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[70vh] bg-gradient-to-br from-blue-50 to-indigo-50 px-4">
+        <div className="text-center max-w-md">
+          <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+            <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m8 0V8a2 2 0 01-2 2H8a2 2 0 01-2-2V6m8 0H8" />
+            </svg>
+          </div>
+          <h1 className="text-3xl font-bold text-gray-900 mb-4">
+            Ready to post your first job?
+          </h1>
+          <p className="text-gray-600 text-lg mb-8 leading-relaxed">
+            Get started with your first job post and attract the right talent today
+          </p>
+          <button
+            onClick={() => window.location.href = '/dashboard/post-job'}
+            className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
+          >
+            <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+            </svg>
+            Post Your First Job
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // Empty state for employee with no activity
+  if (userType === "employee" && !employeeData?.data?.data_available) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[70vh] bg-gradient-to-br from-emerald-50 to-teal-50 px-4">
+        <div className="text-center max-w-md">
+          <div className="w-20 h-20 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+            <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </div>
+          <h1 className="text-3xl font-bold text-gray-900 mb-4">
+            Start your job search journey
+          </h1>
+          <p className="text-gray-600 text-lg mb-8 leading-relaxed">
+            Browse available jobs and apply to positions that match your skills
+          </p>
+          <button
+            onClick={() => window.location.href = '/dashboard/jobs'}
+            className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
+          >
+            <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            Browse Jobs
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // Render appropriate dashboard based on user type
   return (
-    <div>Dashboard</div>
-  )
-}
+    <div className="min-h-screen bg-gray-50">
+      {userType === "employee" ? (
+        <EmployeeDashboardIndex
+          data={employeeData?.data}
+          refetch={employeeRefetch}
+        />
+      ) : (
+        <EmpyoyerDashboardIndex
+          data={employerData?.data}
+          refetch={employerRefetch}
+        />
+      )}
+    </div>
+  );
+};
 
-export default Dashboard
-// import React from "react";
-// import OngoingJobs from "./OngoingJobs";
-// import StatisticsCards from "./StatisticsCards";
-// import EmpyoyerDashboardIndex from "./EmpyoyerDashboardIndex";
-// import {
-//   useGetDashboardForEmployeeeQuery,
-//   useGetDashboardForEmployerQuery,
-// } from "../../services/jobApiSlice";
-// import Spinner from "../../components/ui/Spinner";
-// import {
-//   BriefcaseIcon,
-//   UserIcon,
-//   BookmarkIcon,
-//   EnvelopeOpenIcon,
-// } from "@heroicons/react/24/solid";
-// import EmployeeDashboardIndex from "./EmployeeDashboardIndex";
-// import { useAuthContext } from "../../contexts/auth/context";
-// import { pollingInterval } from "../../constants/app.constant";
-
-// const Dashboard = () => {
-//   const { userType } = useAuthContext();
-//   const { data, isLoading, refetch } = useGetDashboardForEmployerQuery(
-//     {
-//       allFlag: true,
-//     },
-//     { pollingInterval: 5000 }
-//   );
-//   console.log("Data", data);
-//   // console.log("UserType",userType)
-//   const {
-//     data: empData,
-//     isLoading: empLoading,
-//     refetch: emprefetch,
-//   } = useGetDashboardForEmployeeeQuery({ pollingInterval: 5000 });
-//   const cardData =
-//     userType === "employee" ? empData?.data?.stats : data?.data?.stats;
-//   const cardsEmployer = [
-//     {
-//       title: "Total Job Published",
-//       value: cardData?.total_jobs_posted,
-//       bg: "bg-blue-400",
-//       iconBg: "bg-white",
-//       Icon: BriefcaseIcon,
-//       index: 0,
-//       isNavigate: true,
-//     },
-//     {
-//       title: "Active Jobs",
-//       value: cardData?.active_jobs,
-//       bg: "bg-green-400",
-//       iconBg: "bg-white",
-//       Icon: UserIcon,
-//       index: 2,
-//       isNavigate: true,
-//     },
-//     {
-//       title: "Closed Jobs",
-//       value: cardData?.closed_jobs,
-//       bg: "bg-orange-400",
-//       iconBg: "bg-white",
-//       Icon: BookmarkIcon,
-//       index: 5,
-//       isNavigate: true,
-//     },
-//     {
-//       title: "Approved Applications",
-//       value: cardData?.approved_applications,
-//       bg: "bg-sky-400",
-//       iconBg: "bg-white",
-//       Icon: EnvelopeOpenIcon,
-//       index: 6,
-//       isNavigate: true,
-//     },
-//     {
-//       title: "Completed Jobs",
-//       value: cardData?.completed_jobs,
-//       bg: "bg-purple-400",
-//       iconBg: "bg-white",
-//       Icon: BriefcaseIcon,
-//       index: 4,
-//       isNavigate: true,
-//     },
-//   ];
-//   const cards = [
-//     {
-//       title: "Applied Jobs",
-//       value: cardData?.applied_jobs,
-//       bg: "bg-blue-400",
-//       iconBg: "bg-white",
-//       Icon: BriefcaseIcon,
-//       index: 1,
-//       isNavigate: true,
-//     },
-//     {
-//       title: "Rejected Jobs",
-//       value: cardData?.rejected_jobs,
-//       bg: "bg-green-400",
-//       iconBg: "bg-white",
-//       Icon: UserIcon,
-//       index: 4,
-//       isNavigate: true,
-//     },
-//     {
-//       title: "Saved Jobs",
-//       value: cardData?.saved_jobs,
-//       bg: "bg-orange-400",
-//       iconBg: "bg-white",
-//       Icon: BookmarkIcon,
-//       index: 2,
-//       isNavigate: true,
-//     },
-//     {
-//       title: "Profile View",
-//       value: cardData?.profile_view,
-//       bg: "bg-sky-400",
-//       iconBg: "bg-white",
-//       Icon: EnvelopeOpenIcon,
-//       isNavigate: false,
-//       // index: 3,
-//     },
-//     {
-//       title: "Completed Jobs",
-//       value: cardData?.completed,
-//       bg: "bg-purple-400",
-//       iconBg: "bg-white",
-//       Icon: BriefcaseIcon,
-//       index: 6,
-//       isNavigate: true,
-//     },
-//   ];
-//   if (isLoading || empLoading) return <Spinner />;
-//   if (userType === "employer" && !data?.data_available) {
-//     return (
-//       <div className="flex flex-col items-center justify-center min-h-[70vh] bg-white">
-//         <h1 className="text-2xl sm:text-3xl font-semibold text-gray-900 mb-2 text-center">
-//           Ready to post your first job?
-//         </h1>
-//         <p className="text-gray-500 text-base sm:text-lg text-center">
-//           Get started with your first job post and attract
-//           <br />
-//           the right talent today
-//         </p>
-//       </div>
-//     );
-//   }
-//   return (
-//     <section className="">
-//       <OngoingJobs />
-//       <StatisticsCards
-//         cards={userType === "employee" ? cards : cardsEmployer}
-//         isNavigate={userType === "employee"}
-//       />
-//       {userType === "employee" ? (
-//         <EmployeeDashboardIndex data={empData?.data} refetch={emprefetch} />
-//       ) : (
-//         <EmpyoyerDashboardIndex data={data?.data} refetch={refetch} />
-//       )}
-//     </section>
-//   );
-// };
-
-// export default Dashboard;
+export default Dashboard;

@@ -5,7 +5,7 @@ import SkillsMatchEnhanced from "./SkillsMatchEnhanced";
 import DonutChart from "./DonutChart";
 import SuccessHistoryChart from "./SuccessHistoryChart";
 import CandidateLeaderboardTable from "./CandidateLeaderboardTable";
-import { useGetJobListingApplicantsQuery } from "../../../../services/jobApiSlice";
+import { useGetEmployerJobDataQuery } from "../../../../services/jobApiSlice";
 import Spinner from "../../../../components/ui/Spinner";
 
 const StatCard = ({ title, value, icon: Icon, iconColor }) => (
@@ -27,7 +27,7 @@ const StatCard = ({ title, value, icon: Icon, iconColor }) => (
 );
 
 const AnalyticsJobDetails = ({ job }) => {
-  const { data, isLoading } = useGetJobListingApplicantsQuery({
+  const { data, isLoading } = useGetEmployerJobDataQuery({
     job_id: job?.id,
     tab_name: "analytics",
   });

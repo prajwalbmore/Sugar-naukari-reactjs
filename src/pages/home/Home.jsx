@@ -1,90 +1,143 @@
-import React from 'react';
-import { 
-  MapPin, Clock, Briefcase, ChevronRight, Search, Building2, Users, Award, Zap,
-  TrendingUp, Shield, Globe, Star, UserCheck, Calendar, MessageCircle 
-} from 'lucide-react';
+import React from "react";
+import {
+  MapPin,
+  Clock,
+  Briefcase,
+  ChevronRight,
+  Search,
+  Building2,
+  Users,
+  Award,
+  Zap,
+  TrendingUp,
+  Shield,
+  Globe,
+  Star,
+  UserCheck,
+  Calendar,
+  MessageCircle,
+} from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+  const navigate = useNavigate();
   const stats = [
-    { icon: Users, label: 'Active Jobs', value: '50K+', color: 'from-blue-500 to-indigo-600' },
-    { icon: Building2, label: 'Companies', value: '10K+', color: 'from-emerald-500 to-teal-600' },
-    { icon: Award, label: 'Hires Made', value: '95%', color: 'from-purple-500 to-pink-600' },
-    { icon: Zap, label: 'Response Time', value: '24h', color: 'from-orange-500 to-red-500' }
+    {
+      icon: Users,
+      label: "Active Jobs",
+      value: "50K+",
+      color: "from-blue-500 to-indigo-600",
+    },
+    {
+      icon: Building2,
+      label: "Companies",
+      value: "10K+",
+      color: "from-emerald-500 to-teal-600",
+    },
+    {
+      icon: Award,
+      label: "Hires Made",
+      value: "95%",
+      color: "from-purple-500 to-pink-600",
+    },
+    {
+      icon: Zap,
+      label: "Response Time",
+      value: "24h",
+      color: "from-orange-500 to-red-500",
+    },
   ];
 
   const featuredJobs = [
     {
       id: 1,
-      jobTitle: 'Full Stack Flutter Developer',
-      companyName: 'TechRide Solutions',
-      location: 'Mumbai, MH',
-      salary: '15',
-      jobRole: 'Full Stack',
-      exp_level: '3-5 Yrs',
-      skills: ['Flutter', 'Firebase', 'React', 'Node.js', 'MongoDB'],
+      jobTitle: "Full Stack Flutter Developer",
+      companyName: "TechRide Solutions",
+      location: "Mumbai, MH",
+      salary: "15",
+      jobRole: "Full Stack",
+      exp_level: "3-5 Yrs",
+      skills: ["Flutter", "Firebase", "React", "Node.js", "MongoDB"],
       vacancy: 5,
-      createdAt: '2026-01-10'
+      createdAt: "2026-01-10",
     },
     {
       id: 2,
-      jobTitle: 'Senior React Developer',
-      companyName: 'UrbanMove',
-      location: 'Bangalore, KA',
-      salary: '22',
-      jobRole: 'Frontend',
-      exp_level: '5+ Yrs',
-      skills: ['React', 'TypeScript', 'Tailwind', 'Next.js'],
+      jobTitle: "Senior React Developer",
+      companyName: "UrbanMove",
+      location: "Bangalore, KA",
+      salary: "22",
+      jobRole: "Frontend",
+      exp_level: "5+ Yrs",
+      skills: ["React", "TypeScript", "Tailwind", "Next.js"],
       vacancy: 3,
-      createdAt: '2026-01-09'
+      createdAt: "2026-01-09",
     },
     {
       id: 3,
-      jobTitle: 'Backend Engineer',
-      companyName: 'SwiftDelivery',
-      location: 'Remote',
-      salary: '18',
-      jobRole: 'Backend',
-      exp_level: '2-4 Yrs',
-      skills: ['Node.js', 'Express', 'MongoDB', 'Redis'],
+      jobTitle: "Backend Engineer",
+      companyName: "SwiftDelivery",
+      location: "Remote",
+      salary: "18",
+      jobRole: "Backend",
+      exp_level: "2-4 Yrs",
+      skills: ["Node.js", "Express", "MongoDB", "Redis"],
       vacancy: 8,
-      createdAt: '2026-01-11'
+      createdAt: "2026-01-11",
     },
     {
       id: 4,
-      jobTitle: 'DevOps Engineer',
-      companyName: 'CloudScale',
-      location: 'Pune, MH',
-      salary: '20',
-      jobRole: 'DevOps',
-      exp_level: '4-7 Yrs',
-      skills: ['AWS', 'Docker', 'Kubernetes', 'CI/CD'],
+      jobTitle: "DevOps Engineer",
+      companyName: "CloudScale",
+      location: "Pune, MH",
+      salary: "20",
+      jobRole: "DevOps",
+      exp_level: "4-7 Yrs",
+      skills: ["AWS", "Docker", "Kubernetes", "CI/CD"],
       vacancy: 2,
-      createdAt: '2026-01-10'
-    }
+      createdAt: "2026-01-10",
+    },
   ];
 
   const benefits = [
-    { icon: TrendingUp, title: 'Fast Hiring', desc: 'Companies hire 3x faster with our AI matching' },
-    { icon: Shield, title: 'Verified Jobs', desc: 'All jobs verified by our team' },
-    { icon: UserCheck, title: 'Profile Boost', desc: 'Get 5x more views with profile optimization' },
-    { icon: Calendar, title: 'Weekly Payouts', desc: 'Freelancers get paid every Friday' }
+    {
+      icon: TrendingUp,
+      title: "Fast Hiring",
+      desc: "Companies hire 3x faster with our AI matching",
+    },
+    {
+      icon: Shield,
+      title: "Verified Jobs",
+      desc: "All jobs verified by our team",
+    },
+    {
+      icon: UserCheck,
+      title: "Profile Boost",
+      desc: "Get 5x more views with profile optimization",
+    },
+    {
+      icon: Calendar,
+      title: "Weekly Payouts",
+      desc: "Freelancers get paid every Friday",
+    },
   ];
 
   const testimonials = [
     {
-      name: 'Priya Sharma',
-      role: 'Flutter Developer',
-      company: 'TechRide Solutions',
-      quote: 'Found my dream job in 3 days! The matching algorithm is incredible.',
-      avatar: 'P'
+      name: "Priya Sharma",
+      role: "Flutter Developer",
+      company: "TechRide Solutions",
+      quote:
+        "Found my dream job in 3 days! The matching algorithm is incredible.",
+      avatar: "P",
     },
     {
-      name: 'Rahul Mehta',
-      role: 'HR Manager',
-      company: 'UrbanMove',
-      quote: 'Hired 15 developers in a month. Best ROI on any hiring platform.',
-      avatar: 'R'
-    }
+      name: "Rahul Mehta",
+      role: "HR Manager",
+      company: "UrbanMove",
+      quote: "Hired 15 developers in a month. Best ROI on any hiring platform.",
+      avatar: "R",
+    },
   ];
 
   return (
@@ -99,14 +152,16 @@ const Home = () => {
               Join 10K+ companies hiring top talent
             </div>
             <h1 className="text-5xl lg:text-7xl font-black bg-gradient-to-r from-gray-900 via-gray-800 to-slate-900 bg-clip-text text-transparent mb-6 leading-tight">
-              Jobs that 
+              Jobs that
               <span className="bg-gradient-to-r from-blue-600 to-emerald-600 bg-clip-text text-transparent">
-                {' '}change
+                {" "}
+                change
               </span>
               careers
             </h1>
             <p className="text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
-              Simple. Fast. Effective. Find great jobs or hire great talent in minutes.
+              Simple. Fast. Effective. Find great jobs or hire great talent in
+              minutes.
             </p>
           </div>
 
@@ -149,14 +204,21 @@ const Home = () => {
             {stats.map((stat, index) => {
               const Icon = stat.icon;
               return (
-                <div key={index} className="group p-6 rounded-2xl bg-gradient-to-br from-white to-slate-50/50 border border-slate-100 hover:border-slate-200 hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-                  <div className={`w-16 h-16 mx-auto mb-4 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-all duration-300 ${stat.color}`}>
+                <div
+                  key={index}
+                  className="group p-6 rounded-2xl bg-gradient-to-br from-white to-slate-50/50 border border-slate-100 hover:border-slate-200 hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
+                >
+                  <div
+                    className={`w-16 h-16 mx-auto mb-4 rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-all duration-300 ${stat.color}`}
+                  >
                     <Icon className="w-8 h-8" />
                   </div>
                   <div className="text-3xl lg:text-4xl font-black text-slate-900 mb-2 group-hover:text-blue-600 transition-colors">
                     {stat.value}
                   </div>
-                  <div className="text-sm text-slate-600 font-medium">{stat.label}</div>
+                  <div className="text-sm text-slate-600 font-medium">
+                    {stat.label}
+                  </div>
                 </div>
               );
             })}
@@ -172,15 +234,20 @@ const Home = () => {
               <h2 className="text-4xl md:text-5xl font-black bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent mb-3">
                 Featured Jobs
               </h2>
-              <p className="text-xl text-slate-600">Latest opportunities from top companies</p>
+              <p className="text-xl text-slate-600">
+                Latest opportunities from top companies
+              </p>
             </div>
-            <button className="bg-gradient-to-r from-slate-900 to-slate-700 hover:from-slate-800 hover:to-slate-800 text-white px-8 py-4 rounded-2xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 whitespace-nowrap flex items-center gap-2">
+            <button
+              className="bg-gradient-to-r from-slate-900 to-slate-700 hover:from-slate-800 hover:to-slate-800 text-white px-8 py-4 rounded-2xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 whitespace-nowrap flex items-center gap-2"
+              onClick={() => navigate("/jobs")}
+            >
               View All Jobs
               <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </button>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
             {featuredJobs.map((job) => (
               <JobCardSimplified key={job.id} job={job} />
             ))}
@@ -199,17 +266,24 @@ const Home = () => {
               Trusted by 10K+ businesses worldwide
             </p>
           </div>
-          
+
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {benefits.map((benefit, index) => {
               const Icon = benefit.icon;
               return (
-                <div key={index} className="group p-8 rounded-3xl bg-white/70 backdrop-blur-sm border border-slate-200 hover:border-emerald-300 hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 hover:bg-white">
+                <div
+                  key={index}
+                  className="group p-8 rounded-3xl bg-white/70 backdrop-blur-sm border border-slate-200 hover:border-emerald-300 hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 hover:bg-white"
+                >
                   <div className="w-16 h-16 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-2xl flex items-center justify-center text-white shadow-xl mb-6 group-hover:scale-110 transition-all duration-300 mx-auto">
                     <Icon className="w-8 h-8" />
                   </div>
-                  <h3 className="text-xl font-black text-slate-900 mb-4 group-hover:text-emerald-600 transition-colors">{benefit.title}</h3>
-                  <p className="text-slate-600 leading-relaxed">{benefit.desc}</p>
+                  <h3 className="text-xl font-black text-slate-900 mb-4 group-hover:text-emerald-600 transition-colors">
+                    {benefit.title}
+                  </h3>
+                  <p className="text-slate-600 leading-relaxed">
+                    {benefit.desc}
+                  </p>
                 </div>
               );
             })}
@@ -229,7 +303,10 @@ const Home = () => {
 
           <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             {testimonials.map((testimonial, index) => (
-              <div key={index} className="group p-10 rounded-3xl bg-gradient-to-br from-slate-50 to-blue-50 border border-slate-200 hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 relative overflow-hidden">
+              <div
+                key={index}
+                className="group p-10 rounded-3xl bg-gradient-to-br from-slate-50 to-blue-50 border border-slate-200 hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 relative overflow-hidden"
+              >
                 <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/5 to-blue-500/5" />
                 <div className="relative">
                   <div className="flex items-start gap-6 mb-6">
@@ -237,19 +314,30 @@ const Home = () => {
                       {testimonial.avatar}
                     </div>
                     <div>
-                      <h4 className="text-xl font-black text-slate-900 mb-1">{testimonial.name}</h4>
+                      <h4 className="text-xl font-black text-slate-900 mb-1">
+                        {testimonial.name}
+                      </h4>
                       <p className="text-slate-600 flex items-center gap-2">
-                        <span className="px-2 py-1 bg-emerald-100 text-emerald-800 text-xs font-semibold rounded-lg">{testimonial.role}</span>
+                        <span className="px-2 py-1 bg-emerald-100 text-emerald-800 text-xs font-semibold rounded-lg">
+                          {testimonial.role}
+                        </span>
                         <span>•</span>
                         {testimonial.company}
                       </p>
                     </div>
                   </div>
-                  <p className="text-lg text-slate-700 leading-relaxed italic mb-6">"{testimonial.quote}"</p>
+                  <p className="text-lg text-slate-700 leading-relaxed italic mb-6">
+                    "{testimonial.quote}"
+                  </p>
                   <div className="flex gap-1">
-                    {Array(5).fill(0).map((_, i) => (
-                      <Star key={i} className="w-5 h-5 text-emerald-400 fill-emerald-400" />
-                    ))}
+                    {Array(5)
+                      .fill(0)
+                      .map((_, i) => (
+                        <Star
+                          key={i}
+                          className="w-5 h-5 text-emerald-400 fill-emerald-400"
+                        />
+                      ))}
                   </div>
                 </div>
               </div>
@@ -269,7 +357,8 @@ const Home = () => {
             Ready to get started?
           </h2>
           <p className="text-xl mb-12 opacity-90 max-w-2xl mx-auto leading-relaxed">
-            Join thousands of professionals finding their next opportunity or employers hiring top talent.
+            Join thousands of professionals finding their next opportunity or
+            employers hiring top talent.
           </p>
           <div className="flex flex-col lg:flex-row gap-4 justify-center items-center">
             <button className="bg-white text-slate-900 font-black px-12 py-6 rounded-3xl shadow-2xl hover:shadow-3xl hover:scale-[1.02] transition-all duration-300 text-lg flex items-center gap-3">
@@ -327,17 +416,24 @@ const JobCardSimplified = ({ job }) => {
           </div>
           <div className="flex items-center gap-2 p-3 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-100 hover:bg-blue-100 transition-all">
             <MapPin className="w-4 h-4 text-blue-600" />
-            <span className="font-semibold text-slate-800 truncate">{job.location}</span>
+            <span className="font-semibold text-slate-800 truncate">
+              {job.location}
+            </span>
           </div>
           <div className="flex items-center gap-2 p-3 bg-gradient-to-r from-orange-50 to-yellow-50 rounded-xl border border-orange-100 hover:bg-orange-100 transition-all">
             <Clock className="w-4 h-4 text-orange-600" />
-            <span className="font-semibold text-slate-800">{job.exp_level}</span>
+            <span className="font-semibold text-slate-800">
+              {job.exp_level}
+            </span>
           </div>
         </div>
 
         <div className="flex flex-wrap gap-2 mb-6">
           {job.skills.slice(0, 3).map((skill, i) => (
-            <span key={i} className="px-3 py-1.5 bg-slate-100 hover:bg-emerald-100 text-slate-700 px-3 py-1.5 rounded-xl text-xs font-semibold border border-slate-200 hover:border-emerald-300 transition-all hover:scale-105">
+            <span
+              key={i}
+              className="px-3 py-1.5 bg-slate-100 hover:bg-emerald-100 text-slate-700 px-3 py-1.5 rounded-xl text-xs font-semibold border border-slate-200 hover:border-emerald-300 transition-all hover:scale-105"
+            >
               {skill}
             </span>
           ))}
@@ -349,7 +445,9 @@ const JobCardSimplified = ({ job }) => {
         </div>
 
         <div className="flex items-center justify-between pt-4 border-t border-slate-100">
-          <span className="text-sm text-slate-600 font-medium">{job.vacancy} openings</span>
+          <span className="text-sm text-slate-600 font-medium">
+            {job.vacancy} openings
+          </span>
           <button className="bg-gradient-to-r from-blue-600 to-emerald-600 hover:from-blue-700 hover:to-emerald-700 text-white font-semibold py-3 px-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2 hover:-translate-y-0.5">
             Apply Now
             <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -361,7 +459,6 @@ const JobCardSimplified = ({ job }) => {
 };
 
 export default Home;
-
 
 // import React, { useRef } from "react";
 // import HeaderSection from "./HeaderSection";

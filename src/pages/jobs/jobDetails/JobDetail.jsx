@@ -28,7 +28,12 @@ const JobDetail = ({ isDashboard }) => {
   const { id } = useParams();
   const { data, isLoading, refetch } = useGetJobDetailsQuery(id);
   const jobData = data?.data || {};
-  console.log("jobdata",jobData)
+  console.log("jobdata", jobData);
+
+  // Transform skills data for JobDescription component
+  if (jobData.skills && !jobData.jObSkills) {
+    jobData.jObSkills = jobData.skills.map(skill => ({ name: skill }));
+  }
   const job = {
     id: jobData.job_id,
     title: jobData.title,

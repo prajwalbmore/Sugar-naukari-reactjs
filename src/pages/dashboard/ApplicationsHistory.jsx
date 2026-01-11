@@ -33,6 +33,15 @@ const Status = ({ type }) => {
   );
 };
 const ApplicationsHistory = ({ data, t }) => {
+  const tabledata = data?.application_history?.map((appli, index) => ({
+    srNo: index + 1,
+    company_name: appli?.company_name,
+    company_logo: appli?.company_logo,
+    role: appli?.role,
+    date_applied: appli?.date_applied,
+    status: appli?.status,
+  })) || [];
+
   const columns = useMemo(() => [
     { key: "srNo", label: t("Sr No") },
     {
@@ -48,19 +57,24 @@ const ApplicationsHistory = ({ data, t }) => {
       render: (row) => <Status type={row.status} />,
     },
   ]);
-  const tabledata = data?.applications_history.map((appli, index) => ({
-    srNo: index + 1,
-    company_name: appli?.company_name,
-    company_logo: appli?.company_logo,
-    role: appli?.role,
-    date_applied: appli?.date_applied,
-    status: appli?.status,
-  }));
+
+  if (!tabledata || tabledata.length === 0) {
+    return (
+      <div className="text-center py-12">
+        <svg className="w-16 h-16 mx-auto text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+        </svg>
+        <h3 className="text-lg font-medium text-gray-900 mb-2">No Applications Yet</h3>
+        <p className="text-gray-600">Start applying to jobs to see your application history here.</p>
+      </div>
+    );
+  }
+
   return (
     <section>
-      <div className="mt-5">
+      <div className="overflow-x-auto">
         <ReusableTable
-          title="Applications History"
+          title=""
           data={tabledata}
           columns={columns}
           pageSize={5}

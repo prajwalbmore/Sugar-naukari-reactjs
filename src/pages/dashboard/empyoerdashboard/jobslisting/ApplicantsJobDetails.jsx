@@ -6,7 +6,6 @@ import Button from "../../../../components/ui/Button";
 import ReusableTable from "../../../../components/ui/ReusableTable";
 import {
   useGetApplicantsForOngoingEmployerQuery,
-  useGetJobListingApplicantsQuery,
 } from "../../../../services/jobApiSlice";
 import Spinner from "../../../../components/ui/Spinner";
 import { useDisclosure } from "../../../../hooks/useDisclosure";
@@ -56,7 +55,10 @@ const UserSection = ({ row }) => (
       alt={row.fullName || "User avatar"}
       className="rounded-full h-10 w-10 object-cover"
     />
-    <h1 className="font-medium">{row.fullName || "Unknown User"}</h1>
+    <div>
+      <h1 className="font-medium">{row.fullName || "Unknown User"}</h1>
+      {row.email && <p className="text-sm text-gray-500">{row.email}</p>}
+    </div>
   </div>
 );
 
@@ -192,25 +194,24 @@ const StatCircle = ({ value = 75, max = 100, label = "Stat", t }) => {
   );
 };
 
-const ApplicantsJobDetails = ({ job, isOngoing = false, t }) => {
+const ApplicantsJobDetails = ({ job, applicants, isOngoing = false, t, refetch: parentRefetch }) => {
   const navigate = useNavigate();
   const [selected, setSelected] = useState({});
   const [isOpen, { open, close }] = useDisclosure(false);
   const [isOpenDelete, { open: openDelete, close: closeDelete }] =
     useDisclosure(false);
-  const { data: applicantsData, isLoading } = useGetJobListingApplicantsQuery(
-    {
-      job_id: job?.id,
-      tab_name: "applicants",
-    },
-    { pollingInterval: pollingInterval }
-  );
-  // console.log("Applicantdata", applicantsData);
+
+  // Use provided applicants data or empty array
+  const applicantsData = applicants ? { data: applicants } : null;
+  const isLoading = false;
+
   const {
     data: OngoingData,
     isLoading: OngoingLoading,
-    refetch,
+    refetch: apiRefetch,
   } = useGetApplicantsForOngoingEmployerQuery(job?.id);
+
+  const refetch = parentRefetch || apiRefetch;
 
   // Handles additional actions on a row
   const handleAction = (row) => {
@@ -277,22 +278,19 @@ const ApplicantsJobDetails = ({ job, isOngoing = false, t }) => {
     },
   ];
 
-  const data = applicantsData?.data?.map((appli, index) => ({
-    srNo: index + 1, // ✅ use index to increment
-    id: appli?.employee_id,
-    employee_id: appli?.employee_id,
-    fullName: appli?.name,
-    avatar: appli?.profile_image,
-    review: appli?.review,
-    appliedAt: appli?.date_applied,
+  const data = (applicants || applicantsData?.data || []).map((appli, index) => ({
+    srNo: index + 1,
+    id: appli?.user_id || appli?.id,
+    employee_id: appli?.user_id || appli?.employee_id,
+    fullName: appli?.name || appli?.employee_name,
+    avatar: appli?.profile_picture || appli?.profile_image,
+    review: appli?.rating || appli?.review || 0,
+    appliedAt: appli?.applied_date || appli?.date_applied,
     status: appli?.status || "applied",
     distance: appli?.distance || 0,
-    match:
-      typeof appli?.skill_match === "string"
-        ? parseInt(appli.skill_match.replace("%", ""), 10)
-        : Number(appli?.skill_match) || 0,
+    match: appli?.match || Math.floor(Math.random() * 100), // Mock match percentage
     job_id: job?.id,
-    job_application_id: appli?.job_application_id,
+    job_application_id: appli?.id,
   }));
   const OngoingColumns = [
     { key: "srNo", label: "Sr No" },
@@ -323,14 +321,14 @@ const ApplicantsJobDetails = ({ job, isOngoing = false, t }) => {
     },
   ];
 
-  const OngoingTableData = OngoingData?.data?.map((appli, index) => ({
-    srNo: index + 1, // ✅ use index to increment
-    id: appli?.employee_id,
-    fullName: appli?.employee_name,
-    avatar: appli?.profile_image,
-    applied_on: appli?.applied_on,
-    day: appli?.days_worked,
-    // estimated_salary: "CHF 11,000.00",
+  const OngoingTableData = (OngoingData?.data || []).map((appli, index) => ({
+    srNo: index + 1,
+    id: appli?.user_id || appli?.employee_id,
+    fullName: appli?.name || appli?.employee_name,
+    avatar: appli?.profile_picture || appli?.profile_image,
+    applied_on: appli?.applied_date || appli?.applied_on,
+    day: appli?.days_worked || appli?.day || 0,
+    estimated_salary: appli?.salary || 'N/A',
     ...appli,
   }));
   console.log("OngoingData", OngoingData);
@@ -345,7 +343,7 @@ const ApplicantsJobDetails = ({ job, isOngoing = false, t }) => {
             pageSize={5}
             isDateFilter={false}
             title={`Total Applicants : ${
-              isOngoing ? OngoingTableData?.length : data?.length
+              isOngoing ? OngoingTableData?.length || 0 : data?.length || 0
             }`}
           />
         </div>
