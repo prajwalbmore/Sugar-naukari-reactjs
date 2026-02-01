@@ -4,9 +4,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "../../../../components/ui/Button";
 import ReusableTable from "../../../../components/ui/ReusableTable";
-import {
-  useGetApplicantsForOngoingEmployerQuery,
-} from "../../../../services/jobApiSlice";
+import { useGetApplicantsForOngoingEmployerQuery } from "../../../../services/jobApiSlice";
 import Spinner from "../../../../components/ui/Spinner";
 import { useDisclosure } from "../../../../hooks/useDisclosure";
 import Modal from "../../../../components/ui/Modal";
@@ -194,7 +192,13 @@ const StatCircle = ({ value = 75, max = 100, label = "Stat", t }) => {
   );
 };
 
-const ApplicantsJobDetails = ({ job, applicants, isOngoing = false, t, refetch: parentRefetch }) => {
+const ApplicantsJobDetails = ({
+  job,
+  applicants,
+  isOngoing = false,
+  t,
+  refetch: parentRefetch,
+}) => {
   const navigate = useNavigate();
   const [selected, setSelected] = useState({});
   const [isOpen, { open, close }] = useDisclosure(false);
@@ -231,13 +235,13 @@ const ApplicantsJobDetails = ({ job, applicants, isOngoing = false, t, refetch: 
       label: "Match",
       render: (row) => <StatCircle value={row.match} t={t} />,
     },
-    {
-      key: "distance",
-      label: "Distance",
-      render: (row) => (
-        <span>{row.distance ? `${row.distance} km` : "N/A"}</span>
-      ),
-    },
+    // {
+    //   key: "distance",
+    //   label: "Distance",
+    //   render: (row) => (
+    //     <span>{row.distance ? `${row.distance} km` : "N/A"}</span>
+    //   ),
+    // },
     {
       key: "review",
       label: "Employee Review",
@@ -278,20 +282,22 @@ const ApplicantsJobDetails = ({ job, applicants, isOngoing = false, t, refetch: 
     },
   ];
 
-  const data = (applicants || applicantsData?.data || []).map((appli, index) => ({
-    srNo: index + 1,
-    id: appli?.user_id || appli?.id,
-    employee_id: appli?.user_id || appli?.employee_id,
-    fullName: appli?.name || appli?.employee_name,
-    avatar: appli?.profile_picture || appli?.profile_image,
-    review: appli?.rating || appli?.review || 0,
-    appliedAt: appli?.applied_date || appli?.date_applied,
-    status: appli?.status || "applied",
-    distance: appli?.distance || 0,
-    match: appli?.match || Math.floor(Math.random() * 100), // Mock match percentage
-    job_id: job?.id,
-    job_application_id: appli?.id,
-  }));
+  const data = (applicants || applicantsData?.data || []).map(
+    (appli, index) => ({
+      srNo: index + 1,
+      id: appli?.user_id || appli?.id,
+      employee_id: appli?.user_id || appli?.employee_id,
+      fullName: appli?.name || appli?.employee_name,
+      avatar: appli?.profile_picture || appli?.profile_image,
+      review: appli?.rating || appli?.review || 0,
+      appliedAt: appli?.applied_date || appli?.date_applied,
+      status: appli?.status || "applied",
+      distance: appli?.distance || 0,
+      match: appli?.job_match?.match_percentage,
+      job_id: job?.id,
+      job_application_id: appli?.id,
+    })
+  );
   const OngoingColumns = [
     { key: "srNo", label: "Sr No" },
     {
@@ -328,7 +334,7 @@ const ApplicantsJobDetails = ({ job, applicants, isOngoing = false, t, refetch: 
     avatar: appli?.profile_picture || appli?.profile_image,
     applied_on: appli?.applied_date || appli?.applied_on,
     day: appli?.days_worked || appli?.day || 0,
-    estimated_salary: appli?.salary || 'N/A',
+    estimated_salary: appli?.salary || "N/A",
     ...appli,
   }));
   console.log("OngoingData", OngoingData);

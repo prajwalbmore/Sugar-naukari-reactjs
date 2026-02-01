@@ -176,7 +176,7 @@ export default function AppRoutes() {
         <Route index element={<Dashboard />} />
         <Route path="messages" element={<ChatIndex />} />
         <Route path="jobs" element={<JobsDashbosrd />} />
-        <Route path="jobs/:id" element={<JobDetail isDashboard />} />
+        <Route path="jobs/:id" element={<JobDetails isDashboard />} />
         <Route path="applications" element={<MyApplications />} />
         <Route path="personal-info" element={<PersonalInfo />} />
         <Route path="work-history" element={<WorkHistory />} />

@@ -183,10 +183,10 @@ export const jobApi = baseQueryApi.injectEndpoints({
       }),
     }),
     hireAndRejectApplication: builder.mutation({
-      query: (data) => ({
-        url: `/update-job-application-status`,
-        method: "POST",
-        body: data,
+      query: ({ job_application_id, status }) => ({
+        url: `/api/v1/applicants/${job_application_id}/status`,
+        method: "PUT",
+        body: { status },
       }),
     }),
     activeAndCloseJob: builder.mutation({
@@ -301,6 +301,12 @@ export const jobApi = baseQueryApi.injectEndpoints({
         method: "POST",
       }),
     }),
+    deleteJobApplicant: builder.mutation({
+      query: (applicantId) => ({
+        url: `/api/v1/applicants/${applicantId}`,
+        method: "DELETE",
+      }),
+    }),
   }),
 });
 
@@ -335,4 +341,5 @@ export const {
   useCompleteJobMutation,
   useCompleteJobApplicationsMutation,
   useCalculateAndAddExperienceMutation,
+  useDeleteJobApplicantMutation,
 } = jobApi;

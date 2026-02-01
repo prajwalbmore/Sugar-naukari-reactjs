@@ -10,30 +10,28 @@ import {
 } from "lucide-react";
 import React from "react";
 import { FaBuilding } from "react-icons/fa";
+import { useParams } from "react-router-dom";
+import { useGetJobByIDQuery } from "../../../../services/jobApiSlice";
+import Spinner from "../../../../components/ui/Spinner";
+import { useAuthContext } from "../../../../contexts/auth/context";
+import { useApplyAndSaveJobMutation } from "../../../../services/jobApiSlice";
+import { handleSubmit } from "../../../../utils/useHandleSubmit";
+import { toast } from "sonner";
 
-// fallback job data
-const fallbackJob = {
-  _id: "690f36e2ab1d947ecb799740",
-  jobTitle: "Test 1233",
-  jobDescription: "skillOptions",
-  jobRole: "skillOptions",
-  exp_level: "Fresher",
-  skills: ["Node.js", "Express"],
-  salary: "3",
-  vacancy: 9,
-  location: "skillOptions",
-  startdate: "2025-11-19T18:30:00.000Z",
-  status: "active",
-  createdBy: {
-    fullName: "Akshay Patil",
-    email: "akshay@yopmail.com",
-    mobile: "9988774455",
-  },
-  createdAt: "2025-11-08T12:26:10.931Z",
-};
+export default function JobDetails({ job: propJob }) {
+  const { id } = useParams();
+  const { user } = useAuthContext();
 
-export default function JobDetails({ job }) {
-  const jobData = job || fallbackJob;
+  // Use prop job if provided, otherwise fetch by ID
+  const jobId = propJob?._id || id;
+
+  const { data, isLoading, refetch } = useGetJobByIDQuery(jobId, {
+    skip: !jobId
+  });
+
+  const [applyJob] = useApplyAndSaveJobMutation();
+
+  const jobData = data?.data || propJob;
 
   const formatDate = (date) =>
     new Date(date).toLocaleDateString("en-IN", {
@@ -41,6 +39,49 @@ export default function JobDetails({ job }) {
       month: "short",
       year: "numeric",
     });
+
+  const hasApplied = jobData?.hasApplied || jobData?.hasApplied === true;
+  const applicationStatus = jobData?.applicationStatus;
+
+  const handleApply = async () => {
+    if (!user) {
+      toast.error("Please login to apply for a job");
+      return;
+    }
+
+    const result = await handleSubmit({
+      apiCall: applyJob,
+      values: { jobId: jobData?._id },
+      successCallback: () => {
+        refetch?.(); // Refresh to update applied status
+      },
+    });
+
+    if (result?.success) {
+      // Update local state to show applied
+      jobData.hasApplied = true;
+      jobData.applicationStatus = "applied";
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <div className="px-6 lg:px-24 py-10 bg-gradient-to-b from-slate-50 to-white min-h-screen flex items-center justify-center">
+        <Spinner />
+      </div>
+    );
+  }
+
+  if (!jobData) {
+    return (
+      <div className="px-6 lg:px-24 py-10 bg-gradient-to-b from-slate-50 to-white min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">Job Not Found</h2>
+          <p className="text-gray-600">The job you're looking for doesn't exist or has been removed.</p>
+        </div>
+      </div>
+    );
+  }
 
   // Reusable info card UI
   const InfoCard = ({ icon, title, value, color }) => (
@@ -77,7 +118,7 @@ export default function JobDetails({ job }) {
               <div className="flex items-center gap-2 text-sm bg-gray-100 px-4 py-2 rounded-2xl border border-gray-200">
                 <FaBuilding className="w-4 h-4 text-emerald-600" />
                 <span className="font-semibold text-gray-900">
-                  {jobData.createdBy.fullName}
+                  {jobData.createdBy?.fullName || jobData.createdBy?.companyName || 'Unknown Company'}
                 </span>
               </div>
 
@@ -92,9 +133,18 @@ export default function JobDetails({ job }) {
           </div>
 
           {/* CTA */}
-          <button className="bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-bold py-4 px-10 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 flex items-center gap-2 text-lg">
-            Apply Now <ChevronRight className="w-5 h-5" />
-          </button>
+          {hasApplied ? (
+            <div className="bg-gradient-to-r from-green-500 to-green-600 text-white font-bold py-4 px-10 rounded-2xl shadow-xl flex items-center gap-2 text-lg">
+              Applied
+            </div>
+          ) : (
+            <button
+              onClick={handleApply}
+              className="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-bold py-4 px-10 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 flex items-center gap-2 text-lg"
+            >
+              Apply Now <ChevronRight className="w-5 h-5" />
+            </button>
+          )}
         </div>
       </div>
 
@@ -136,12 +186,12 @@ export default function JobDetails({ job }) {
             <div className="space-y-3">
               <div className="flex items-center gap-3 bg-white p-3 rounded-2xl shadow-sm">
                 <Mail className="w-5 h-5 text-gray-500" />
-                <span className="font-medium">{jobData.createdBy.email}</span>
+                <span className="font-medium">{jobData.createdBy?.email || 'Not provided'}</span>
               </div>
 
               <div className="flex items-center gap-3 bg-white p-3 rounded-2xl shadow-sm">
                 <Phone className="w-5 h-5 text-gray-500" />
-                <span className="font-medium">{jobData.createdBy.mobile}</span>
+                <span className="font-medium">{jobData.createdBy?.mobile || 'Not provided'}</span>
               </div>
             </div>
           </div>

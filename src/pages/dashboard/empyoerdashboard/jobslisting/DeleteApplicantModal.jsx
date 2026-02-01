@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { AlertTriangle } from "lucide-react";
-import { useDeleteApplicantEmployeeMutation, useDeleteApplicantMutation } from "../../../../services/faqApiSlice";
-import { handleSubmit } from "../../../../utils/useHandleSubmit";
+import { useDeleteJobApplicantMutation } from "../../../../services/jobApiSlice";
 
 const DeleteApplicantModal = ({
   jobs,
@@ -10,32 +9,37 @@ const DeleteApplicantModal = ({
   refetch,
   isEmployee = false,
 }) => {
-  const [loading, setLoading] = useState(false);
-  const [deleteApplicant] = useDeleteApplicantMutation();
-  const [deleteApplicantEmployee] = useDeleteApplicantEmployeeMutation();
-  console.log("first", selected);
+  const [deleteJobApplicant, { isLoading }] = useDeleteJobApplicantMutation();
+
   const handleDelete = async () => {
     try {
-      setLoading(true);
-      if (isEmployee) {
-        handleSubmit({
-          apiCall: deleteApplicantEmployee,
-          values: { job_application_id: selected?.id },
-        });
-      } else {
-        handleSubmit({
-          apiCall: deleteApplicant,
-          values: { job_application_id: selected?.job_application_id },
-        });
+      // Use the application ID to delete
+      const applicantId = isEmployee ? selected?.id : selected?.job_application_id || selected?.application_id;
+
+      console.log("DeleteApplicantModal - Deleting applicant:", { applicantId, selected, isEmployee, deleteJobApplicant });
+
+      if (!applicantId) {
+        console.error("No applicant ID found", selected);
+        alert(`No applicant ID found. Selected: ${JSON.stringify(selected)}`);
+        return;
       }
 
-      await new Promise((res) => setTimeout(res, 1000)); // fake delay for UX
-      refetch?.(); // Refresh data after deletion
-      onClose(); // Close modal
+      console.log("Calling deleteApplicant mutation with:", applicantId);
+
+      // Call the mutation directly
+      const result = await deleteJobApplicant(applicantId).unwrap();
+
+      console.log("Delete result:", result);
+
+      if (result?.success) {
+        console.log("Delete successful, refreshing data");
+        await new Promise((res) => setTimeout(res, 1000)); // fake delay for UX
+        refetch?.(); // Refresh data after deletion
+        onClose(); // Close modal
+      }
     } catch (err) {
       console.error("Delete failed:", err);
-    } finally {
-      setLoading(false);
+      alert(`Delete failed: ${err?.message || 'Unknown error'}`);
     }
   };
 
@@ -56,16 +60,16 @@ const DeleteApplicantModal = ({
         <button
           onClick={onClose}
           className="w-1/2 border border-gray-300 rounded-lg py-2 text-gray-700 hover:bg-gray-100 transition"
-          disabled={loading}
+          disabled={isLoading}
         >
           Cancel
         </button>
         <button
           onClick={handleDelete}
           className="w-1/2 bg-red-600 text-white rounded-lg py-2 hover:bg-red-700 transition disabled:opacity-70"
-          disabled={loading}
+          disabled={isLoading}
         >
-          {loading ? "Deleting..." : "Delete"}
+          {isLoading ? "Deleting..." : "Delete"}
         </button>
       </div>
     </div>

@@ -51,7 +51,7 @@ const DashboardNavbar = ({ active, setActive }) => {
   const activeItem = menuItems.find((item) =>
     item.end
       ? location.pathname === item.path
-      : location.pathname.startsWith(item.path)
+      : location.pathname.startsWith(item.path),
   );
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -141,11 +141,12 @@ const DashboardNavbar = ({ active, setActive }) => {
             className="border rounded-lg px-2 py-1"
           >
             <option value="en">EN</option>
-            <option value="fr">FR</option>
+            <option value="hi">HI</option>
+            <option value="mr">MR</option>
           </select>
 
           {/* MapPin for employee */}
-          {user?.raw.role === "employee" && (
+          {/* {user?.raw.role === "employee" && (
             <Button
               className="p-1 sm:p-2 border-2 border-gray-300 rounded-full"
               onClick={() => navigate("/dashboard/nearby-jobs")}
@@ -155,7 +156,7 @@ const DashboardNavbar = ({ active, setActive }) => {
                 strokeWidth={2}
               />
             </Button>
-          )}
+          )} */}
 
           {/* Notifications */}
           {/* <Button

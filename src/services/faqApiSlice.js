@@ -157,12 +157,7 @@ export const faqApi = baseQueryApi.injectEndpoints({
         body: data,
       }),
     }),
-    deleteApplicant: builder.mutation({
-      query: ({ job_application_id }) => ({
-        url: `/reject-hired-candidate?job_application_id=${job_application_id}`,
-        method: "POST",
-      }),
-    }),
+
     deleteApplicantEmployee: builder.mutation({
       query: ({ job_application_id }) => ({
         url: `/employee/delete-job-application?job_application_id=${job_application_id}`,
@@ -202,7 +197,6 @@ export const {
   useSaveChatHistoryMutation,
   useTermsAndConditionPrivacyQuery,
   useSubscriptionHistoryQuery,
-  useDeleteApplicantMutation,
   useDeleteApplicantEmployeeMutation,
   useGetCompanyDetailsMutation,
 } = faqApi;

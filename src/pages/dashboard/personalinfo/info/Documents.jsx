@@ -7,6 +7,7 @@ import { useDisclosure } from "../../../../hooks/useDisclosure";
 import IDProofUploadModal from "../IDProofUploadModal";
 import CertificationUploadModal from "../CertificationUploadModal";
 import { useAuthContext } from "../../../../contexts/auth/context";
+import { IMAGEBASEURL } from "../../../../constants/app.constant";
 
 const FileRow = ({ type = "pdf", title, size, fileUrl, onPreview }) => {
   const isPdf = type === "pdf";
@@ -77,8 +78,8 @@ export function Documents({
     name: userData?.data?.user_id_name || "No ID proof uploaded",
   };
   const resumeData = {
-    file: userData?.data?.resume_file || "",
-    name: userData?.data?.resume_file_name || "No file selected",
+    file: `${IMAGEBASEURL}/${userData?.data?.resume}` || "",
+    name: userData?.data?.resume || "No file selected",
     file_size: userData?.data?.resume_file_size || "0 KB",
   };
 

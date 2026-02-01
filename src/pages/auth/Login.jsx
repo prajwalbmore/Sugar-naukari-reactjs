@@ -3,6 +3,8 @@ import { useLocation, useNavigate, Link } from "react-router-dom";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import { Formik } from "formik";
 import * as Yup from "yup";
+import BriefcaseBusiness from "/assets/BriefcaseBusiness.png";
+import UserTie from "/assets/UserTie.png";
 
 import FaceBookLogo from "/assets/FacebookLogo.svg";
 import Input from "../../components/ui/Input";
@@ -15,7 +17,6 @@ import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 
 const Login = () => {
-
   const location = useLocation();
   const { t } = useTranslation();
   const [showPassword, setShowPassword] = useState(false);
@@ -48,7 +49,7 @@ const Login = () => {
       password: values.password,
     });
     console.log("res", res);
-    if(res?.success) {
+    if (res?.success) {
       navigate("/dashboard");
     } else {
       toast.error(res?.message);
@@ -61,7 +62,7 @@ const Login = () => {
     // }
     // if (res?.isprofileCreated) {
     // } else if (res?.isprofileCreated !== undefined) {
-      // navigate(`/create-profile/${res.role || userType}`);
+    // navigate(`/create-profile/${res.role || userType}`);
     // }
     // if (res.status !== "error" && res.status !== "email_error") {
     //   if (res?.isprofileCreated) {
@@ -97,17 +98,52 @@ const Login = () => {
             isSubmitting,
           }) => (
             <form onSubmit={handleSubmit}>
-              {/* User Type Selection */}
-              <div className="mb-4">
-                <SelectInput
-                  label="I am looking to"
-                  name="userType"
-                  value={userType}
-                  onChange={(e) => setUserType(e.target.value)}
-                  options={userTypeOptions}
-                />
-              </div>
+              <div className="w-full max-w-sm space-y-4 mb-5 relative">
+                <label
+                  className={`flex items-center justify-between py-2.5 px-4 rounded-lg cursor-pointer transition-all ${
+                    userType === "employee"
+                      ? "bg-white shadow-lg border-2 border-emerald-500"
+                      : "bg-gray-100"
+                  }`}
+                >
+                  <div className="flex items-center space-x-3">
+                   
+                    <span className="font-medium text-dark">
+                      {t("Find a Job")}
+                    </span>
+                  </div>
+                  <input
+                    type="radio"
+                    name="joinOption"
+                    value="employee"
+                    checked={userType === "employee"}
+                    onChange={(e) => setUserType(e.target.value)}
+                    className="w-5 h-5 accent-black cursor-pointer"
+                  />
+                </label>
 
+                <label
+                  className={`flex items-center justify-between py-2.5 px-4 rounded-lg cursor-pointer transition-all ${
+                    userType === "employer"
+                      ? "bg-white shadow-lg border-2 border-emerald-500"
+                      : "bg-gray-100"
+                  }`}
+                >
+                  <div className="flex items-center space-x-3">
+                    <span className="font-medium text-dark">
+                      {t("Find an Employee")}
+                    </span>
+                  </div>
+                  <input
+                    type="radio"
+                    name="joinOption"
+                    value="employer"
+                    checked={userType === "employer"}
+                    onChange={(e) => setUserType(e.target.value)}
+                    className="w-5 h-5 accent-black cursor-pointer"
+                  />
+                </label>
+              </div>
               {/* Email Input */}
               <div className="mb-4">
                 <Input

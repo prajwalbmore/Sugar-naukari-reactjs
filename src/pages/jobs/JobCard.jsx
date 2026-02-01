@@ -34,6 +34,10 @@ const JobCard = ({ job = {}, isDetails = false, refetch = () => {} }) => {
     useMarkAsUnusedJobMutation();
   const [save, { isLoading: saveisLoading }] = useApplyAndSaveJobMutation();
   const navigate = useNavigate();
+
+  const hasApplied = job.hasApplied || job.hasApplied === true;
+  const applicationStatus = job.applicationStatus;
+
   const onApply = async () => {
     if (!user) {
       toast.error("Please login to apply for a job");
@@ -44,10 +48,16 @@ const JobCard = ({ job = {}, isDetails = false, refetch = () => {} }) => {
       // refetch: refetch,
       transformValues: () => ({
         employee_id: user?.id,
-        job_id: job.id,
+        job_id: job.id || job.job_id,
         status: "applied",
       }),
     });
+    if (res?.success) {
+      // Update local state to show applied
+      job.hasApplied = true;
+      job.applicationStatus = "applied";
+      refetch?.();
+    }
     navigate("/dashboard/jobs");
   };
 
@@ -188,14 +198,20 @@ const JobCard = ({ job = {}, isDetails = false, refetch = () => {} }) => {
           className={`mt-4 md:mt-0 flex flex-col md:justify-between items-start md:items-end gap-3 w-full md:w-auto`}
         >
           <div className="flex gap-2 items-center w-full md:w-auto flex-wrap">
-            <Button
-              type="button"
-              className="flex-1 md:flex-none w-full md:w-auto rounded-full bg-black text-white py-2 px-6 text-sm font-medium hover:opacity-90"
-              onClick={onApply}
-              loading={isLoading}
-            >
-              {!isLoading && t("Apply")}
-            </Button>
+            {hasApplied ? (
+              <div className="flex-1 md:flex-none w-full md:w-auto rounded-full bg-green-500 text-white py-2 px-6 text-sm font-medium text-center">
+                Applied
+              </div>
+            ) : (
+              <Button
+                type="button"
+                className="flex-1 md:flex-none w-full md:w-auto rounded-full bg-black text-white py-2 px-6 text-sm font-medium hover:opacity-90"
+                onClick={onApply}
+                loading={isLoading}
+              >
+                {!isLoading && t("Apply")}
+              </Button>
+            )}
             <Button
               type="button"
               aria-label="Bookmark"

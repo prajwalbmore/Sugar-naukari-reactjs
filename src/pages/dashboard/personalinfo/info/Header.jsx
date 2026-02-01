@@ -1,5 +1,6 @@
 import { StarIcon } from "@heroicons/react/24/solid";
 import React from "react";
+import { IMAGEBASEURL } from "../../../../constants/app.constant";
 
 const Header = ({
   rating = "",
@@ -13,7 +14,7 @@ const Header = ({
       {/* Banner */}
       <div className="bg-emerald-500 h-28 relative p-4 sm:p-6 flex items-center">
         <img
-          src={userData?.data?.profile_image}
+          src={`${IMAGEBASEURL}/${userData?.data?.profile_image}`}
           alt="Profile"
           className="w-20 h-20 sm:w-28 sm:h-28 md:w-32 md:h-32 rounded-full border-4 border-white bg-blue-400 absolute top-[60px] sm:top-[45px] left-4 sm:left-6"
         />
@@ -33,7 +34,7 @@ const Header = ({
             {userData?.data?.fullName}
           </h2>
           <p className="text-gray-500 text-sm sm:text-base mt-2 md:mt-3 text-justify max-w-full md:max-w-2xl lg:max-w-3xl">
-            {userData?.data?.profile_summary}
+            {userData?.data?.about}
           </p>
         </div>
       </div>

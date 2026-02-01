@@ -3,7 +3,8 @@ import { initReactI18next } from "react-i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 
 import en from "./en.json";
-import fr from "./fr.json";
+import hi from "./hi.json";
+import mr from "./mr.json";
 
 i18n
   .use(LanguageDetector)
@@ -11,10 +12,11 @@ i18n
   .init({
     resources: {
       en: { translation: en },
-      fr: { translation: fr },
+      hi: { translation: hi },
+      mr: { translation: mr },
     },
-    lng: localStorage.getItem("i18nextLng") || "fr", // 👈 checks localStorage first, then defaults to French
-    fallbackLng: "fr",
+    lng: localStorage.getItem("i18nextLng") || "en", // 👈 checks localStorage first, then defaults to English
+    fallbackLng: "en",
     interpolation: { escapeValue: false },
     detection: {
       order: ["localStorage", "navigator", "htmlTag", "path", "subdomain"],
@@ -23,7 +25,6 @@ i18n
   });
 
 export default i18n;
-
 
 // // i18n.js
 // import i18n from "i18next";

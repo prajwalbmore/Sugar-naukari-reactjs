@@ -167,16 +167,16 @@ const Home = () => {
 
           {/* Minimal Search */}
           <div className="max-w-2xl mx-auto">
-            <div className="bg-white/80 backdrop-blur-xl border border-slate-200/50 rounded-3xl shadow-xl p-1 flex gap-2">
+            <div className="bg-white/80 backdrop-blur-xl border border-slate-200/50 rounded-2xl shadow-xl p-1 flex gap-2">
               <div className="flex-1 relative group">
                 <Search className="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-600 transition-colors" />
                 <input
                   type="text"
                   placeholder="Search jobs, companies, skills..."
-                  className="w-full pl-12 pr-4 py-4 bg-transparent border-none focus:ring-2 focus:ring-blue-500/20 rounded-2.5xl text-lg placeholder-slate-500 focus:outline-none focus:placeholder-slate-400"
+                  className="w-full pl-12 pr-4 py-4 bg-transparent border-none focus:ring-2 focus:ring-blue-500/20 rounded-2xl text-lg placeholder-slate-500 focus:outline-none focus:placeholder-slate-400"
                 />
               </div>
-              <button className="group bg-gradient-to-r from-blue-600 to-emerald-600 hover:from-blue-700 hover:to-emerald-700 text-white px-8 py-4 rounded-2.5xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 whitespace-nowrap flex items-center gap-2">
+              <button className="group bg-gradient-to-r from-blue-600 to-emerald-600 hover:from-blue-700 hover:to-emerald-700 text-white px-8 py-4 rounded-2xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 whitespace-nowrap flex items-center gap-2">
                 Find Jobs
               </button>
             </div>

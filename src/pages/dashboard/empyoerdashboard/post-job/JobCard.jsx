@@ -32,7 +32,9 @@ export default function JobCard({ job, onApply, refetch }) {
 
             <div className="min-w-0 flex-1">
               <h2 className="text-xl font-black bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent truncate transition-transform duration-300">
-                {job?.createdBy?.companyName || job?.createdBy?.fullName || "Unknown Company"}
+                {job?.createdBy?.companyName ||
+                  job?.createdBy?.fullName ||
+                  "Unknown Company"}
               </h2>
               <p className="text-sm text-gray-500 mt-1 font-medium">
                 Posted {postedDate}
@@ -52,7 +54,12 @@ export default function JobCard({ job, onApply, refetch }) {
       {/* Body */}
       <div className="p-6">
         {/* Title */}
-        <Link to={`/jobs/${job._id || ""}`} className="block">
+        <Link
+          to={`${
+            user ? `/dashboard/jobs/${job._id}` : `/jobs/${job._id || ""}`
+          }`}
+          className="block"
+        >
           <h3 className="text-2xl font-black bg-gradient-to-r from-gray-900 via-gray-800 to-emerald-900 bg-clip-text text-transparent mb-4 line-clamp-2 leading-tight  transition-transform duration-300">
             {job?.jobTitle || "Job Title"}
           </h3>
@@ -121,13 +128,13 @@ export default function JobCard({ job, onApply, refetch }) {
                     toast.error("Please login to apply for a job");
                     return;
                   }
-                handleSubmit({
-                  apiCall: applyJob,
-                  values: { jobId: job?._id },
-                  successCallback: () => {
-                    refetch?.(); // Refresh jobs to update application status
-                  }
-                });
+                  handleSubmit({
+                    apiCall: applyJob,
+                    values: { jobId: job?._id },
+                    successCallback: () => {
+                      refetch?.(); // Refresh jobs to update application status
+                    },
+                  });
                 }}
                 className="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-bold py-3 px-6 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 hover:scale-[1.02] flex items-center gap-2 text-sm active:scale-[0.98]"
               >

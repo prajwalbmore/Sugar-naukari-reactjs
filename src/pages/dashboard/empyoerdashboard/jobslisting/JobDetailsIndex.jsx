@@ -44,7 +44,7 @@ const JobDetailsIndex = () => {
       job_id: job?.id,
       tab_name: activeTab === 'details' ? 'job_details' : activeTab === 'applicants' ? 'applicants' : 'job_details',
     },
-    { pollingInterval: pollingInterval, skip: !job?.id }
+    // { pollingInterval: pollingInterval, skip: !job?.id }
   );
 
   const tabs = [
@@ -229,11 +229,11 @@ const JobDetailsIndex = () => {
                   <div className="space-y-4">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">Job Title</label>
-                      <p className="text-gray-900 bg-gray-50 px-3 py-2 rounded-md">{jobData?.data?.job_role || job?.job_role || 'N/A'}</p>
+                      <p className="text-gray-900 bg-gray-50 px-3 py-2 rounded-md">{jobData?.data?.jobTitle || job?.job_role || 'N/A'}</p>
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">Location</label>
-                      <p className="text-gray-900 bg-gray-50 px-3 py-2 rounded-md">{job?.location || 'N/A'}</p>
+                      <p className="text-gray-900 bg-gray-50 px-3 py-2 rounded-md">{jobData?.data?.location || 'N/A'}</p>
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">Salary</label>
@@ -264,6 +264,12 @@ const JobDetailsIndex = () => {
                   <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
                   <div className="bg-gray-50 rounded-md p-4">
                     <p className="text-gray-900 whitespace-pre-line">{jobData?.data?.description || 'No description available'}</p>
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Job Role</label>
+                  <div className="bg-gray-50 rounded-md p-4">
+                    <p className="text-gray-900 whitespace-pre-line">{jobData?.data?.job_role || 'No description available'}</p>
                   </div>
                 </div>
 

@@ -21,8 +21,8 @@ const AdditionalDetails = ({
   const info = userData?.data || {};
   const details = [
     { label: "Email", value: info.email, icon: EnvelopeIcon },
-    { label: "Location", value: info.location, icon: MapPinIcon },
-    { label: "Phone Number", value: info.mobile_number, icon: PhoneIcon },
+    { label: "Location", value: info.preferredLocation, icon: MapPinIcon },
+    { label: "Phone Number", value: info.mobile, icon: PhoneIcon },
     {
       label: "Date of Birth",
       value: info.date_of_birth,
@@ -31,7 +31,7 @@ const AdditionalDetails = ({
     {
       label: "Languages",
       value: Array.isArray(info.languages)
-        ? info.languages.map((lang) => lang.lang).join(", ")
+        ? info.languages.map((lang) => lang).join(", ")
         : info.languages || "-",
       icon: LanguageIcon,
     },

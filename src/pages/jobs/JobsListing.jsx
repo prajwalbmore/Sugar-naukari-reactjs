@@ -26,7 +26,7 @@ const JobsListing = ({
   };
   // Filtered jobs
   const filteredJobs = useMemo(() => {
-    return jobs.filter((job) => {
+    return jobs?.filter((job) => {
       // console.log("Filtering job:", job);
       const jobTitle = job?.title?.toLowerCase() || "";
       const jobLocation = job?.location?.toLowerCase() || "";
@@ -57,7 +57,7 @@ const JobsListing = ({
 
   return (
     <section
-      className="w-full px-4 sm:px-6 min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50"
+      className="w-full px-4 sm:px-6 min-h-screen "
       ref={jobRef}
     >
       {/* Mobile Filters Button */}

@@ -42,23 +42,15 @@ const ApplicantDetails = () => {
   const userData = data || {};
 
   const onSubmit = (status) => {
-    const payload = {
-      job_application_id: state?.row?.job_application_id,
-      status: status,
-    };
     handleSubmit({
-      values: payload,
+      values: { job_application_id: state?.row?.job_application_id, status },
       apiCall: hire,
       refetch: refetch,
     });
   };
   const onSubmit1 = (status) => {
-    const payload = {
-      job_application_id: state?.row?.job_application_id,
-      status: status,
-    };
     handleSubmit({
-      values: payload,
+      values: { job_application_id: state?.row?.job_application_id, status },
       apiCall: reject,
       refetch: refetch,
     });
@@ -124,13 +116,13 @@ const ApplicantDetails = () => {
             </div>
           )}
 
-          <Button
+          {/* <Button
             className="rounded-full border-2 border-gray-500 text-gray-500 px-4 py-2 text-sm hover:bg-gray-100"
             onClick={handleSaveChat}
             loading={saveLoading}
           >
             {!saveLoading && t("Chat With Employee")}
-          </Button>
+          </Button> */}
         </div>
       </div>
 

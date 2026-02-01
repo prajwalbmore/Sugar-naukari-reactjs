@@ -150,10 +150,11 @@ const Applicants = () => {
     fullName: appli?.employee_name,
     avatar: appli?.profile_image,
     review: appli?.review_rating,
-    match:
-      typeof appli?.skill_match === "string"
-        ? parseInt(appli.skill_match.replace("%", ""), 10)
-        : Number(appli?.skill_match) || 0,
+    // match:
+    //   typeof appli?.skill_match === "string"
+    //     ? parseInt(appli.skill_match.replace("%", ""), 10)
+    //     : Number(appli?.skill_match) || 0,
+    match: appli?.job_match?.match_percentage,
     appliedAt: appli?.applied_on,
     jobRole:
       appli?.job_title.length > 20
